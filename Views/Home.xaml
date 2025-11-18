@@ -1,0 +1,311 @@
+﻿<UserControl x:Class="Xaml.DataGrid.Issue.Views.Home"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Xaml.DataGrid.Issue.Views"
+             mc:Ignorable="d" 
+             xmlns:igDP="http://infragistics.com/DataPresenter"
+             xmlns:igDock="http://infragistics.com/DockManager"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="actionStrip" TargetType="{x:Type igDP:CellValuePresenter}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type igDP:CellValuePresenter}">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Visibility="Hidden"
+                                x:Name="ActionButtons"
+                                Margin="2">
+                                <Button Width="25"
+                            Height="25"
+                            Padding="0"
+                            ToolTip="View Parameters"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                                    Click Me
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                        <!-- Trigger to show on hover -->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ActionButtons" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+
+        <StackPanel Grid.Row="1">
+            <TextBlock 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            Margin="25,5">
+                    Welcome to App
+            </TextBlock>
+
+        </StackPanel >
+
+        <igDock:XamDockManager  x:Name="dockManager" Grid.Row="2"  Padding="10"
+                                Background="Transparent"
+                                 ShowFloatingWindowsInTaskbar="True"
+                                 UseOwnedFloatingWindows="False" 
+                                AllowMaximizeFloatingWindows="True"
+                                 AllowMinimizeFloatingWindows="True" 
+                                FloatingWindowDragMode="UseSystemWindowDrag">
+            <igDock:DocumentContentHost x:Name="DocHost"  >
+                <igDock:SplitPane >
+                    <igDock:TabGroupPane  >
+                        <igDock:ContentPane x:Name="ActiveWorkingPlan" Header="Active Working Plans" 
+                                            BorderBrush="Transparent"
+                                            Padding="5" 
+                                            PinButtonVisibility="Hidden" 
+                                            WindowPositionMenuVisibility="Hidden" 
+                                            CloseButtonVisibility="Hidden" 
+                                            AllowClose="False"
+                                            AllowPinning="False"
+                                            AllowDocking="False" 
+                                            AllowDockingInTabGroup="False" 
+                                            AllowFloatingOnly="False" 
+                                            AllowInDocumentHost="False" 
+                                            AllowDockingBottom="False" 
+                                            AllowDockingFloating="False" 
+                                            AllowDockingLeft="False" 
+                                            AllowDockingRight="False" 
+                                            AllowDockingTop="False" >
+                            <!--<ig:XamBusyIndicator x:Name="BusyActivePlansIndicator"
+                             Animation="Azure"
+                             IsBusy="{Binding ShowBusyActivePlans, UpdateSourceTrigger=PropertyChanged}"
+                             BusyContent="{Binding BusyContentHistyory, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalContentAlignment="Center"
+                             VerticalContentAlignment="Center">-->
+                            <StackPanel>
+
+                                <Button Content="Start a plan"
+                                          HorizontalAlignment="Right"
+                                          VerticalAlignment="Center"
+                                          IsEnabled="{Binding PlanNotInScope, UpdateSourceTrigger=PropertyChanged}"
+                                          Command="{Binding DataContext.DialogOpenCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                          Margin="10,10" 
+                                          Width="105" />
+
+                                <igDP:XamDataGrid x:Name="XamDataGrid1"
+                              AutoFit="True" 
+                              IsGroupByAreaExpanded="False"
+                              DataSource="{Binding LineItems, UpdateSourceTrigger=PropertyChanged}">
+                                    <igDP:XamDataGrid.FieldLayoutSettings>
+                                        <igDP:FieldLayoutSettings AllowFieldGroupCollapsing="True"
+                                      AllowAddNew="False"
+                                      AllowFieldMoving="Yes"
+                                      AllowDelete="False"
+                                      HeaderPrefixAreaDisplayMode="Menu"
+                                      AllowClipboardOperations="All"
+                                      AutoGenerateFields="False" />
+                                    </igDP:XamDataGrid.FieldLayoutSettings>
+                                    <igDP:XamDataGrid.FieldLayouts>
+                                        <igDP:FieldLayout>
+                                            <igDP:Field Label="Item SKU"
+                                            AllowEdit="False"
+                                            AllowRecordFiltering="True"
+                                            Name="Sku" />
+                                                                        <igDP:Field Label="Item Desc"
+                                            AllowEdit="False"
+                                            AllowRecordFiltering="True"
+                                            Name="Description" />
+                                                                        <igDP:Field Label="Item Brand"
+                                            AllowEdit="False"
+                                            AllowRecordFiltering="True"
+                                            Name="Brand" />
+                                                                        <igDP:DateTimeField Label="Modified  Date"
+                                             HorizontalContentAlignment="Right"
+                                             Format="MM/dd/yyyy hh:mm:ss tt"
+                                             AllowEdit="False"
+                                             AllowRecordFiltering="True"
+                                             AllowGroupBy="False"
+                                             Visibility="Collapsed"
+                                             Name="ModifiedDate" />
+                                            <igDP:Field Name="Id" Label="Action">
+                                                <igDP:Field.Settings>
+                                                    <igDP:FieldSettings CellValuePresenterStyle="{StaticResource actionStrip}" />
+                                                </igDP:Field.Settings>
+                                            </igDP:Field>
+                                        </igDP:FieldLayout>
+                                    </igDP:XamDataGrid.FieldLayouts>
+                                </igDP:XamDataGrid>
+                            </StackPanel>
+                            <!--</ig:XamBusyIndicator>-->
+                        </igDock:ContentPane>
+                    </igDock:TabGroupPane>
+                </igDock:SplitPane>
+            </igDock:DocumentContentHost>
+            <igDock:XamDockManager.Panes >
+                <igDock:SplitPane igDock:XamDockManager.InitialLocation="DockedRight"  
+                              SplitterOrientation="Horizontal">
+                    <igDock:ContentPane x:Name="HistoryPane"
+                                    Header="History" 
+                                    Padding="5"
+                                    PinButtonVisibility="Hidden" 
+                                            WindowPositionMenuVisibility="Hidden" 
+                                            CloseButtonVisibility="Hidden" 
+                                            AllowClose="False"
+                                            AllowPinning="true"
+                                            AllowDocking="False" 
+                                            AllowDockingInTabGroup="False" 
+                                            AllowFloatingOnly="False" 
+                                            AllowInDocumentHost="False" 
+                                            AllowDockingBottom="False" 
+                                            AllowDockingFloating="False" 
+                                            AllowDockingLeft="False" 
+                                            AllowDockingRight="False" 
+                                            AllowDockingTop="False"
+                                    >
+                        <!--<ig:XamBusyIndicator x:Name="BusyHistoryIndicator"
+                             Animation="Azure"
+                             IsBusy="{Binding ShowBusyHistory, UpdateSourceTrigger=PropertyChanged}"
+                             BusyContent="{Binding BusyContentHistyory, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalContentAlignment="Center"
+                             VerticalContentAlignment="Center">-->
+                        <!--<igDP:XamDataGrid x:Name="historyPlanGrid"
+                                  AutoFit="True"
+                                  IsGroupByAreaExpanded="False"
+                                  GroupByAreaLocation="None"
+                                  DataSource="{Binding WorkingPlanHistory, UpdateSourceTrigger=PropertyChanged}">
+                            <igDP:XamDataGrid.FieldLayoutSettings>
+                                <igDP:FieldLayoutSettings AllowFieldGroupCollapsing="True"
+                                          AllowAddNew="False"
+                                          AllowFieldMoving="Yes"
+                                          AllowDelete="False"
+                                          HeaderPrefixAreaDisplayMode="Menu"
+                                          AllowClipboardOperations="All"
+                                          AutoGenerateFields="False" />
+                            </igDP:XamDataGrid.FieldLayoutSettings>
+                            <igDP:XamDataGrid.FieldLayouts>
+                                <igDP:FieldLayout>
+                                    <igDP:Field Label="Plan Short Desc"
+                                                AllowEdit="False"
+                                                AllowRecordFiltering="True"
+                                                Name="PlanName" />
+                                    <igDP:Field Label="Fiscal Weeks"
+                                                AllowEdit="False"
+                                                AllowRecordFiltering="True"
+                                                Name="DateRange" />
+                                    <igDP:DateTimeField Label="Last Activity"
+                                                HorizontalContentAlignment="Right"
+                                                Format="MM/dd/yyyy hh:mm:ss tt"
+                                                AllowEdit="False"
+                                                AllowRecordFiltering="True"
+                                                AllowGroupBy="False"
+                                                Name="LastAccessed" />
+                                    <igDP:Field Name="Id" Label="Action">
+                                        <igDP:Field.Settings>
+                                            <igDP:FieldSettings CellValuePresenterStyle="{StaticResource actionStrip}" />
+                                        </igDP:Field.Settings>
+                                    </igDP:Field>
+                                </igDP:FieldLayout>
+                            </igDP:XamDataGrid.FieldLayouts>
+                        </igDP:XamDataGrid>-->
+                        <!--</ig:XamBusyIndicator>-->
+                    </igDock:ContentPane>
+                    <igDock:ContentPane x:Name="ApprovalPane" Header="Approvals" 
+                                        Padding="5"                                             
+                                        PinButtonVisibility="Hidden" 
+                                            WindowPositionMenuVisibility="Hidden" 
+                                            CloseButtonVisibility="Hidden" 
+                                            AllowClose="False"
+                                            AllowPinning="True"
+                                            AllowDocking="False" 
+                                            AllowDockingInTabGroup="False" 
+                                            AllowFloatingOnly="False" 
+                                            AllowInDocumentHost="False" 
+                                            AllowDockingBottom="False" 
+                                            AllowDockingFloating="False" 
+                                            AllowDockingLeft="False" 
+                                            AllowDockingRight="False" 
+                                            AllowDockingTop="False">
+
+                        <!--<igDP:XamDataGrid x:Name="approvalPlanGrid"
+                                  AutoFit="True"
+                                  IsGroupByAreaExpanded="False"
+                                  GroupByAreaLocation="None"
+                                  DataSource="{Binding ActivePlans, UpdateSourceTrigger=PropertyChanged}">
+                            <igDP:XamDataGrid.FieldLayoutSettings>
+                                <igDP:FieldLayoutSettings AllowFieldGroupCollapsing="True"
+                                          AllowAddNew="False"
+                                          AllowFieldMoving="Yes"
+                                          AllowDelete="False"
+                                          HeaderPrefixAreaDisplayMode="Menu"
+                                          AllowClipboardOperations="All"
+                                          AutoGenerateFields="False" />
+                            </igDP:XamDataGrid.FieldLayoutSettings>
+                            <igDP:XamDataGrid.FieldLayouts>
+                                <igDP:FieldLayout>
+                                    <igDP:Field Label="Email"
+                                                AllowEdit="False"
+                                                AllowRecordFiltering="True"
+                                                Name="Email" />
+                                    <igDP:Field Label="First Name"
+                                                AllowEdit="False"
+                                                AllowRecordFiltering="True"
+                                                Name="FirstName" />
+                                    <igDP:Field Label="Last Name"
+                                                AllowEdit="False"
+                                                AllowRecordFiltering="True"
+                                                Name="LastName" />
+                                    <igDP:Field Label="Active"
+                                                Width="60px"
+                                                AllowEdit="False"
+                                                Name="Active" />
+                                    <igDP:Field Label="User Name"
+                                                AllowEdit="False"
+                                                AllowRecordFiltering="True"
+                                                Name="UserName" />
+                                    <igDP:Field Name="RolesDisplay"
+                                                AllowEdit="False"
+                                                AllowRecordFiltering="True"
+                                                AllowGroupBy="False"
+                                                Label="Roles" />
+                                    <igDP:DateTimeField Label="Last Login/Activity"
+                                                HorizontalContentAlignment="Right"
+                                                Format="MM/dd/yyyy hh:mm:ss tt"
+                                                AllowEdit="False"
+                                                AllowGroupBy="False"
+                                                Name="LastLogin" />
+                                    <igDP:Field Label="Created Date"
+                                                HorizontalContentAlignment="Right"
+                                                AllowEdit="False"
+                                                AllowGroupBy="False"
+                                                Name="CreateDate" />
+                                    <igDP:Field Label="Modified Date"
+                                                HorizontalContentAlignment="Right"
+                                                AllowEdit="False"
+                                                AllowGroupBy="False"
+                                                Name="ModifiedDate" />
+                                    <igDP:Field Label="Modified By"
+                                                AllowEdit="False"
+                                                AllowGroupBy="False"
+                                                Name="ModifiedBy" />
+                                </igDP:FieldLayout>
+                            </igDP:XamDataGrid.FieldLayouts>
+                        </igDP:XamDataGrid>-->
+                    </igDock:ContentPane>
+                </igDock:SplitPane>
+            </igDock:XamDockManager.Panes>
+        </igDock:XamDockManager>
+    </Grid>
+
+</UserControl>

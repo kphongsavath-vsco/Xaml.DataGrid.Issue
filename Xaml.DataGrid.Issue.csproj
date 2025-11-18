@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net09.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+	  <SelfContained>true</SelfContained>
+	  <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+	  <PublishSingleFile>true</PublishSingleFile>
+  </PropertyGroup>
+
+	<PropertyGroup>
+		<StartupObject>Xaml.DataGrid.Issue.Program</StartupObject>
+	</PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Infragistics.WPF" Version="25.1.117" />
+	  <PackageReference Include="Infragistics.WPF.DataGrids" Version="25.1.117" />
+	  <PackageReference Include="Infragistics.WPF.Controls.Editors.XamComboEditor" Version="25.1.117" />
+	  <PackageReference Include="Infragistics.WPF.DataGrids.Excel" Version="25.1.117" />
+	  <PackageReference Include="Infragistics.WPF.DialogWindow" Version="25.1.117" />
+	  <PackageReference Include="Infragistics.WPF.Editors" Version="25.1.117" />
+	  <PackageReference Include="Infragistics.WPF.Menus" Version="25.1.117" />
+	  <PackageReference Include="Infragistics.WPF.Olap.FlatData" Version="25.1.117" />
+	  <PackageReference Include="Infragistics.WPF.PivotGrid" Version="25.1.117" />
+	  <PackageReference Include="Infragistics.WPF.DockManager" Version="25.1.117" />
+	  <PackageReference Include="Infragistics.WPF.Themes.Office2013" Version="25.1.117" />
+
+	  <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+	  <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+	  <PackageReference Include="Microsoft.Net.Sdk.Compilers.Toolset" Version="10.0.100" />
+  </ItemGroup>
+
+</Project>
